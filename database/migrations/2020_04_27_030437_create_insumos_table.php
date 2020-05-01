@@ -15,7 +15,7 @@ class CreateInsumosTable extends Migration
     {
         Schema::create('insumos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('provedor_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('provedor_id')->constrained('provedores')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('grupo_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('producto');
             $table->string('codigo');

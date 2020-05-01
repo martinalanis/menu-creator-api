@@ -15,7 +15,7 @@ class CreateMenuPlaneacionTable extends Migration
     {
         Schema::create('menu_planeacion', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('planeacion_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('planeacion_id')->constrained('planeaciones')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('menu_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->integer('dia');
             $table->integer('orden');
