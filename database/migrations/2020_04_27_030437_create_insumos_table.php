@@ -15,16 +15,16 @@ class CreateInsumosTable extends Migration
     {
         Schema::create('insumos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('provedor_id')->constrained('provedores')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('provedor_id')->constrained('provedores')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->foreignId('grupo_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('producto');
-            $table->string('codigo');
+            $table->string('clave')->unique();
             $table->string('marca');
             $table->string('presentacion');
             $table->string('unidad');
-            $table->decimal('calorias_porcion', 9, 2);
-            $table->decimal('precio_porcion', 9, 2);
-            $table->decimal('merma', 9, 2);
+            $table->decimal('calorias', 9, 2)->nullable();
+            $table->decimal('precio', 9, 2)->nullable();
+            $table->decimal('merma', 9, 2)->nullable();
             $table->timestamps();
         });
     }
