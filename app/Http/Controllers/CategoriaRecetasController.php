@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use App\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoriaRecetasController extends Controller
 {
   private $messages;
-  private $codes;
 
   public function __construct()
   {
     $this->messages = Arr::dot(config('constants.messages'));
-    $this->codes = Arr::dot(config('constants.http_codes'));
   }
   /**
    * Display a listing of the resource.
@@ -36,9 +35,9 @@ class CategoriaRecetasController extends Controller
   {
     $categorias_receta = new Categoria($request->all());
     if ($categorias_receta->save()) {
-      return response()->json($this->messages['create.success'], $this->codes['ok']);
+      return response()->json($this->messages['create.success'], Response::HTTP_OK);
     }
-    return response()->json($this->messages['create.fail'], $this->codes['error']);
+    return response()->json($this->messages['create.fail'], Response::HTTP_CONFLICT);
   }
 
   /**
@@ -63,9 +62,9 @@ class CategoriaRecetasController extends Controller
   {
     $categorias_receta->fill($request->all());
     if ($categorias_receta->save()) {
-      return response()->json($this->messages['update.success'], $this->codes['ok']);
+      return response()->json($this->messages['update.success'], Response::HTTP_OK);
     }
-    return response()->json($this->messages['update.fail'], $this->codes['error']);
+    return response()->json($this->messages['update.fail'], Response::HTTP_CONFLICT);
   }
 
   /**
@@ -77,8 +76,8 @@ class CategoriaRecetasController extends Controller
   public function destroy(Categoria $categorias_receta)
   {
     if ($categorias_receta->delete()) {
-      return response()->json($this->messages['delete.success'], $this->codes['ok']);
+      return response()->json($this->messages['delete.success'], Response::HTTP_OK);
     }
-    return response()->json($this->messages['delete.fail'], $this->codes['error']);
+    return response()->json($this->messages['delete.fail'], Response::HTTP_CONFLICT);
   }
 }

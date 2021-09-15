@@ -18,11 +18,6 @@ return [
     ],
 
     'default' => 'Error desconocido'
-  ],
-
-  'http_codes' => [
-    'ok' => 200,
-    'error' => 409
   ]
 
 ];

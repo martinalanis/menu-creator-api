@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use App\Insumo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Symfony\Component\HttpFoundation\Response;
 
 class InsumoController extends Controller
 {
   private $messages;
-  private $codes;
 
   public function __construct()
   {
     $this->messages = Arr::dot(config('constants.messages'));
-    $this->codes = Arr::dot(config('constants.http_codes'));
   }
   /**
    * Display a listing of the resource.
@@ -23,7 +22,7 @@ class InsumoController extends Controller
    */
   public function index()
   {
-    return response()->json(Insumo::with('grupo')->get());
+    return response()->json(Insumo::with('grupo')->orderBy('created_at', 'DESC')->get());
   }
 
   /**
@@ -36,9 +35,9 @@ class InsumoController extends Controller
   {
     $insumo = new Insumo($request->all());
     if ($insumo->save()) {
-      return response()->json($this->messages['create.success'], $this->codes['ok']);
+      return response()->json($this->messages['create.success'], Response::HTTP_OK);
     }
-    return response()->json($this->messages['create.fail'], $this->codes['error']);
+    return response()->json($this->messages['create.fail'], Response::HTTP_CONFLICT);
   }
 
   /**
@@ -73,9 +72,9 @@ class InsumoController extends Controller
   public function destroy(Insumo $insumo)
   {
     if ($insumo->delete()) {
-      return response()->json($this->messages['delete.success'], $this->codes['ok']);
+      return response()->json($this->messages['delete.success'], Response::HTTP_OK);
     }
-    return response()->json($this->messages['delete.fail'], $this->codes['error']);
+    return response()->json($this->messages['delete.fail'], Response::HTTP_CONFLICT);
   }
 
   public function verify($clave)
